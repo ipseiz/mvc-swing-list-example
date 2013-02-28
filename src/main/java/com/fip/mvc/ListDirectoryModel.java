@@ -1,4 +1,5 @@
 package com.fip.mvc;
+
 import java.util.ArrayList;
 
 import javax.swing.AbstractListModel;
@@ -7,12 +8,12 @@ import javax.swing.AbstractListModel;
 // Model
 // This model is completely independent of the user interface.
 // It could as easily be used by a command line or web interface.
+
 /**
  * Description
  *
  * @author Fabien Ipseiz
  */
-
 @SuppressWarnings("serial")
 public class ListDirectoryModel extends AbstractListModel<String> {
 	
@@ -41,9 +42,10 @@ public class ListDirectoryModel extends AbstractListModel<String> {
 		}
 	
 	public void removeDirectory(String directory) {
-		int index=listDirectory.lastIndexOf(directory);
-		listDirectory.remove(directory);
-		fireIntervalRemoved(this, index, index);
+		int index = listDirectory.lastIndexOf(directory);
+		if (index >= 0) {
+			listDirectory.remove(directory);
+			fireIntervalRemoved(this, index, index);
 		}
-		
+	}
 }
