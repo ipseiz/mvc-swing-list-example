@@ -19,6 +19,8 @@ public class ListDirectoryMain {
 		ListDirectoryView       view       = new ListDirectoryView(model);
 		ListDirectoryController controller = new ListDirectoryController(model, view);
 		
+		view.pack();
+		view.setLocation(200, 200);
 		view.setVisible(true);
 	}
 

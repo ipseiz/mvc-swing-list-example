@@ -41,15 +41,16 @@ public class ListDirectoryView extends JFrame {
 	public ListDirectoryView(ListDirectoryModel dirModel)  {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		//setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
+		contentPane.setName(getTitle());
 		setContentPane(contentPane);
 		
 		// Create input field row:
 		JLabel entryLabel = new JLabel("Input text:");
-		inputElement = new JTextField("", 30);
+		inputElement = new JTextField(40);
 		JPanel inputPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		inputPanel.add(entryLabel);
 		inputPanel.add(inputElement);
@@ -70,12 +71,6 @@ public class ListDirectoryView extends JFrame {
 					addButton.setEnabled(false);
 				}
 			}
-			/*public void keyTyped(KeyEvent e) {
-				// TODO: Do something for the keyTyped event
-			}
-			public void keyPressed(KeyEvent e) {
-				// TODO: Do something for the keyPressed event
-			}*/
 		});
 
 		// Create list panel:
@@ -100,7 +95,7 @@ public class ListDirectoryView extends JFrame {
 		addButton.addActionListener(l);
 		removeButton.addActionListener(l);
 	}
-
+	
 	/**
 	 * @return the inputText
 	 */

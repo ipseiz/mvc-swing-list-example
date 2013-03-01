@@ -21,7 +21,6 @@ public class ListDirectoryController implements ActionListener{
 		this.dirModel = model;
 		this.dirView = view;
 		
-		
 		//... Add listeners to the view.
 		dirView.buttonsListener(this);
 	}
@@ -29,10 +28,11 @@ public class ListDirectoryController implements ActionListener{
 	public void actionPerformed(ActionEvent event) {
 		String cmd = event.getActionCommand();
 		String text = ListDirectoryView.getInputText();
-		if (cmd.equals("add")) {
+		switch (cmd.toLowerCase()) {
+		case "add":
 			dirModel.addDirectory(text);
-		}
-		if (cmd.equals("del")) {
+			break;
+		case "del":
 			dirModel.removeDirectory(text);
 		}
 	}
