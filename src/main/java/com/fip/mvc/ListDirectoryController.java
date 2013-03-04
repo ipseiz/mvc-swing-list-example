@@ -1,7 +1,6 @@
 package com.fip.mvc;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 // ListDirectoryController.java
 // Handles user interaction with listeners.
@@ -12,28 +11,25 @@ import java.awt.event.ActionListener;
  *
  * @author Fabien Ipseiz
  */
-public class ListDirectoryController implements ActionListener{
+public class ListDirectoryController implements ButtonsListener {
 
-	private ListDirectoryModel dirModel;
-	private ListDirectoryView dirView;
+	private final ListDirectoryModel dirModel;
+	private final ListDirectoryView dirView;
 
 	public ListDirectoryController(ListDirectoryModel model, ListDirectoryView view) {
 		this.dirModel = model;
-		this.dirView = view;
-		
-		//... Add listeners to the view.
-		dirView.buttonsListener(this);
-	}
+		this.dirView = view;			
+	}	
 	
-	public void actionPerformed(ActionEvent event) {
-		String cmd = event.getActionCommand();
-		String text = ListDirectoryView.getInputText();
-		switch (cmd.toLowerCase()) {
-		case "add":
-			dirModel.addDirectory(text);
-			break;
-		case "del":
-			dirModel.removeDirectory(text);
-		}
+	@Override
+	public void addPerformed(ActionEvent e) {
+		String text = dirView.getInputText();
+		dirModel.addDirectory(text);
+	}
+
+	@Override
+	public void deletePerformed(ActionEvent e) {
+		String text = dirView.getInputText();
+		dirModel.removeDirectory(text);
 	}
 }
