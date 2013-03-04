@@ -5,4 +5,9 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>mvc-swing-list-example</name>
   <description>Example of using the MVC pattern with Swing in an application that manages a list</description>
+  
+  <properties>
+  	<maven.compiler.source>1.7</maven.compiler.source>
+  	<maven.compiler.target>1.7</maven.compiler.target>
+  </properties>
 </project>
