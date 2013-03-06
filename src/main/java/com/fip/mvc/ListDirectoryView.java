@@ -2,6 +2,7 @@ package com.fip.mvc;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -25,15 +26,13 @@ import javax.swing.border.TitledBorder;
  *
  * @author Fabien Ipseiz
  */
-@SuppressWarnings("serial")
 public class ListDirectoryView extends JFrame {
 
-	private JPanel contentPane;
+	private static final long serialVersionUID = 1L;
+
 	private JButton addButton;
 	private JButton removeButton;
 	private JTextField inputElement;
-	private static String inputText;
-	
 	
 	/**
 	 * Create the frame.
@@ -42,7 +41,7 @@ public class ListDirectoryView extends JFrame {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//setBounds(100, 100, 450, 300);
-		contentPane = new JPanel();
+		JPanel contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		contentPane.setName(getTitle());
@@ -63,9 +62,9 @@ public class ListDirectoryView extends JFrame {
 		inputElement.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
 				JTextField textField = (JTextField) e.getSource();
-				inputText = textField.getText();
-				if (!textField.getText().equals("")) {
+				if (!textField.getText().isEmpty()) {
 					addButton.setEnabled(true);
+					removeButton.setEnabled(true);
 				} else {
 					addButton.setEnabled(false);
 				}
@@ -80,26 +79,38 @@ public class ListDirectoryView extends JFrame {
 		JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		addButton=new JButton("Add");
 		addButton.setEnabled(false);
-		addButton.setActionCommand("add");
 		buttonsPanel.add(addButton);
 		
 		removeButton=new JButton("Delete");
 		removeButton.setEnabled(false);
 		buttonsPanel.add(removeButton);
-		removeButton.setActionCommand("del");
 		contentPane.add(buttonsPanel, BorderLayout.SOUTH);
 	}
 	
-	public void buttonsListener(ActionListener l) {
-		addButton.addActionListener(l);
-		removeButton.addActionListener(l);
+	public void addButtonsListener(final ButtonsListener l) {
+		addButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				l.addPerformed(e);
+				
+			}
+		});
+		removeButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				l.deletePerformed(e);
+				
+			}
+		});
 	}
 	
 	/**
 	 * @return the inputText
 	 */
-	public static String getInputText() {
-		return inputText;
+	public String getInputText() {
+		return inputElement.getText();
 	}
 	
 	/**
