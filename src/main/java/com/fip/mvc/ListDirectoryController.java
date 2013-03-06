@@ -2,6 +2,10 @@ package com.fip.mvc;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
+import javax.swing.JTextField;
 
 // ListDirectoryController.java
 // Handles user interaction with listeners.
@@ -31,9 +35,15 @@ public class ListDirectoryController implements ActionListener{
 		switch (cmd.toLowerCase()) {
 		case "add":
 			dirModel.addDirectory(text);
+			dirView.enableRemoveButton();
 			break;
 		case "del":
 			dirModel.removeDirectory(text);
+			int listSize = dirModel.getSize();
+			if (listSize == 0) {
+				dirView.disableRemoveButton();
+			}
+			
 		}
 	}
 }

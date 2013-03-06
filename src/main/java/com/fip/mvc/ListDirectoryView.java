@@ -66,7 +66,6 @@ public class ListDirectoryView extends JFrame {
 				inputText = textField.getText();
 				if (!textField.getText().equals("")) {
 					addButton.setEnabled(true);
-					removeButton.setEnabled(true);
 				} else {
 					addButton.setEnabled(false);
 				}
@@ -80,14 +79,14 @@ public class ListDirectoryView extends JFrame {
 		// Create buttons panel:
 		JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		addButton=new JButton("Add");
-		addButton.setActionCommand("add");
 		addButton.setEnabled(false);
+		addButton.setActionCommand("add");
 		buttonsPanel.add(addButton);
 		
 		removeButton=new JButton("Delete");
+		removeButton.setEnabled(false);
 		buttonsPanel.add(removeButton);
 		removeButton.setActionCommand("del");
-		removeButton.setEnabled(false);
 		contentPane.add(buttonsPanel, BorderLayout.SOUTH);
 	}
 	
@@ -101,5 +100,19 @@ public class ListDirectoryView extends JFrame {
 	 */
 	public static String getInputText() {
 		return inputText;
+	}
+	
+	/**
+	 * Activates the button delete 
+	 */
+	public void enableRemoveButton() {
+		removeButton.setEnabled(true);
+	}
+	
+	/**
+	 * Deactivates the button delete 
+	 */
+	public void disableRemoveButton() {
+		removeButton.setEnabled(false);
 	}
 }
