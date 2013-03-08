@@ -50,6 +50,7 @@ public class ListDirectoryView extends JFrame {
 		// Create input field row:
 		JLabel entryLabel = new JLabel("Input text:");
 		inputElement = new JTextField(40);
+		inputElement.setName("inputText");
 		JPanel inputPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		inputPanel.add(entryLabel);
 		inputPanel.add(inputElement);
@@ -73,12 +74,14 @@ public class ListDirectoryView extends JFrame {
 
 		// Create list panel:
 		JList<String> viewList = new JList<String>(dirModel);
+		viewList.setName("list");
 		getContentPane().add(new JScrollPane(viewList));
 
 		// Create buttons panel:
 		JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		addButton=new JButton("Add");
 		addButton.setEnabled(false);
+		addButton.setName("add");
 		buttonsPanel.add(addButton);
 		
 		removeButton=new JButton("Delete");

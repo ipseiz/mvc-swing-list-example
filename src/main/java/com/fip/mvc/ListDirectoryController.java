@@ -1,15 +1,10 @@
 package com.fip.mvc;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-
-import javax.swing.JTextField;
 
 // ListDirectoryController.java
 // Handles user interaction with listeners.
 // Calls View and Model as needed.
-
 /**
  * Description
  *
@@ -22,8 +17,9 @@ public class ListDirectoryController implements ButtonsListener {
 
 	public ListDirectoryController(ListDirectoryModel model, ListDirectoryView view) {
 		this.dirModel = model;
-		this.dirView = view;			
-	}	
+		this.dirView = view;
+		view.addButtonsListener(this);
+	}
 	
 	@Override
 	public void addPerformed(ActionEvent e) {
