@@ -13,11 +13,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import static org.fest.assertions.api.Assertions.assertThat;
+import static org.fest.assertions.api.Assertions.failBecauseExceptionWasNotThrown;
 
 /**
  * Description
  *
- * @author ipseiz
+ * @author Fabien Ipseiz
  *
  */
 public class GUIFunctionalTest {
@@ -39,9 +41,9 @@ public class GUIFunctionalTest {
 					}
 				});
 
+		@SuppressWarnings("unused")
 		ListDirectoryController controller = new ListDirectoryController(model, view);
-				
-
+		
 		window = new FrameFixture(view);
 		window.show(); // shows the frame to test
 	}
@@ -53,8 +55,34 @@ public class GUIFunctionalTest {
 
 	@Test
 	public void shouldAddTextInListWhenClickingAddButton() {
+		window.button("add").requireDisabled();
+		window.button("del").requireDisabled();
 		window.textBox("inputText").enterText("Some random text");
+		window.button("add").requireEnabled();
 		window.button("add").click();
 		assertThat(window.list("list").item(0).value(), is(equalTo("Some random text")));
+	}
+	
+	@Test
+	public void shouldAddTextInListWhenPressingReturn() {
+		window.textBox("inputText").enterText("Some random text\n");
+		assertThat(window.list("list").item(0).value(), is(equalTo("Some random text")));
+	}
+	
+	@Test
+	public void shouldDeleteTextInListWhenClickingDelButton() {
+		shouldAddTextInListWhenClickingAddButton();
+		window.button("del").requireEnabled();
+		window.button("del").click();
+		// throwable specific assertions
+		try {
+			assertThat(window.list("list").item(0).value(), is(equalTo("Some random text")));
+			// if IndexOutOfBoundsException was not thrown, test would fail with message :
+			// "Expected IndexOutOfBoundsException to be thrown"
+			failBecauseExceptionWasNotThrown(IndexOutOfBoundsException.class);
+		} catch (Exception e) {
+			assertThat(e).isInstanceOf(IndexOutOfBoundsException.class);
+		}
+		window.button("del").requireDisabled();
 	}
 }

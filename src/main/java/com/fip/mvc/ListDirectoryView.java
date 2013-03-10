@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -63,6 +65,9 @@ public class ListDirectoryView extends JFrame {
 		inputElement.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
 				JTextField textField = (JTextField) e.getSource();
+				if (e.getKeyCode() == KeyEvent.VK_ENTER){
+				      addButton.doClick();
+				}
 				if (!textField.getText().isEmpty()) {
 					addButton.setEnabled(true);
 					removeButton.setEnabled(true);
@@ -77,6 +82,19 @@ public class ListDirectoryView extends JFrame {
 		viewList.setName("list");
 		getContentPane().add(new JScrollPane(viewList));
 
+		// Select text if row is double-clicked:
+		viewList.addMouseListener(new MouseAdapter() {
+		    public void mouseClicked(MouseEvent evt) {
+		    	JList<String> list = (JList<String>)evt.getSource();
+		        if (evt.getClickCount() == 2) {
+		            if (list.getSelectedIndex() == -1){
+		            	addButton.setEnabled(false);
+		            }
+		        	inputElement.setText(list.getSelectedValue());
+		        }
+		    }
+		});
+
 		// Create buttons panel:
 		JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		addButton=new JButton("Add");
@@ -86,6 +104,7 @@ public class ListDirectoryView extends JFrame {
 		
 		removeButton=new JButton("Delete");
 		removeButton.setEnabled(false);
+		removeButton.setName("del");
 		buttonsPanel.add(removeButton);
 		contentPane.add(buttonsPanel, BorderLayout.SOUTH);
 	}
