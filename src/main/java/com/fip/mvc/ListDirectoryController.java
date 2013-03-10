@@ -18,6 +18,7 @@ public class ListDirectoryController implements ButtonsListener {
 	public ListDirectoryController(ListDirectoryModel model, ListDirectoryView view) {
 		this.dirModel = model;
 		this.dirView = view;
+		//... Add listeners to the view.
 		view.addButtonsListener(this);
 	}
 	

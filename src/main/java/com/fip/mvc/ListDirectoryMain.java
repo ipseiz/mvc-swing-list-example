@@ -17,7 +17,7 @@ public class ListDirectoryMain {
 		ListDirectoryView       view       = new ListDirectoryView(model);
 		ListDirectoryController controller = new ListDirectoryController(model, view);
 		//... Add listeners to the view.
-		view.addButtonsListener(controller);
+		//view.addButtonsListener(controller);
 		
 		view.pack();
 		view.setLocation(200, 200);
