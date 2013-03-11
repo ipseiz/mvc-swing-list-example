@@ -18,6 +18,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 
 // ListDirectoryView.java
@@ -62,34 +64,49 @@ public class ListDirectoryView extends JFrame {
 
 		// Register a KeyListener for the inputElement text field.
 		inputElement.addKeyListener(new KeyAdapter() {
+			
+			@Override
 			public void keyReleased(KeyEvent e) {
-				JTextField textField = (JTextField) e.getSource();
 				if (e.getKeyCode() == KeyEvent.VK_ENTER){
 				      addButton.doClick();
-				}
-				if (!textField.getText().isEmpty()) {
-					addButton.setEnabled(true);
-					removeButton.setEnabled(true);
-				} else {
-					addButton.setEnabled(false);
 				}
 			}
 		});
 
+		// Buttons management depending of the content of the inputElement text field.
+		inputElement.getDocument().addDocumentListener(new DocumentListener() {
+			
+			@Override
+			public void removeUpdate(DocumentEvent arg0) {
+				if (inputElement.getText().isEmpty()) {
+					addButton.setEnabled(false);
+					removeButton.setEnabled(false);
+				} 
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent arg0) {
+				addButton.setEnabled(true);
+				removeButton.setEnabled(true);
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent arg0) {
+			}
+		});
+		
 		// Create list panel:
-		JList<String> viewList = new JList<String>(dirModel);
+		final JList<String> viewList = new JList<String>(dirModel);
 		viewList.setName("list");
 		getContentPane().add(new JScrollPane(viewList));
 
 		// Select text if row is double-clicked:
 		viewList.addMouseListener(new MouseAdapter() {
+			
+			@Override
 		    public void mouseClicked(MouseEvent evt) {
-		    	JList<String> list = (JList<String>)evt.getSource();
-		        if (evt.getClickCount() == 2) {
-		            if (list.getSelectedIndex() == -1){
-		            	addButton.setEnabled(false);
-		            }
-		        	inputElement.setText(list.getSelectedValue());
+		        if (evt.getClickCount() == 2 && viewList.getSelectedIndex() != -1) {
+		            	inputElement.setText(viewList.getSelectedValue());
 		        }
 		    }
 		});

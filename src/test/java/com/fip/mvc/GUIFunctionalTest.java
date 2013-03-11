@@ -13,7 +13,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.fest.assertions.api.Assertions.assertThat;
 import static org.fest.assertions.api.Assertions.failBecauseExceptionWasNotThrown;
 
 /**
@@ -80,9 +79,17 @@ public class GUIFunctionalTest {
 			// if IndexOutOfBoundsException was not thrown, test would fail with message :
 			// "Expected IndexOutOfBoundsException to be thrown"
 			failBecauseExceptionWasNotThrown(IndexOutOfBoundsException.class);
-		} catch (Exception e) {
-			assertThat(e).isInstanceOf(IndexOutOfBoundsException.class);
+		} catch (IndexOutOfBoundsException e) {
+			//assertThat(e).isInstanceOf(IndexOutOfBoundsException.class);
 		}
 		window.button("del").requireDisabled();
+	}
+	@Test
+	public void doubleClickTextInListShouldActivateButtons() {
+		window.textBox("inputText").enterText("Some random text\n");
+		window.textBox("inputText").deleteText();
+		window.list("list").item(0).doubleClick();
+		window.button("add").requireEnabled();
+		window.button("del").requireEnabled();
 	}
 }
