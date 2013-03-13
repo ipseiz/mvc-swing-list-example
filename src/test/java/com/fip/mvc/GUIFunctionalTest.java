@@ -71,6 +71,7 @@ public class GUIFunctionalTest {
 	@Test
 	public void shouldDeleteTextInListWhenClickingDelButton() {
 		shouldAddTextInListWhenClickingAddButton();
+		window.list("list").clickItem(0);
 		window.button("del").requireEnabled();
 		window.button("del").click();
 		// throwable specific assertions

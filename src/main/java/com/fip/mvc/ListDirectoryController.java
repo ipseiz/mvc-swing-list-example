@@ -26,18 +26,11 @@ public class ListDirectoryController implements ButtonsListener {
 	public void addPerformed(ActionEvent e) {
 		String text = dirView.getInputText();
 		dirModel.addDirectory(text);
-		dirView.enableRemoveButton();
 	}
 	
 	@Override
 	public void deletePerformed(ActionEvent e) {
-		String text = dirView.getInputText();
-		dirModel.removeDirectory(text);
-			int listSize = dirModel.getSize();
-			if (listSize == 0) {
-				dirView.disableRemoveButton();
-			}
-			
+		dirModel.removeMultipleDirectory(dirView.getSelectedText());
 		}
 	}
 

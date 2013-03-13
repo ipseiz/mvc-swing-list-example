@@ -20,7 +20,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 // ListDirectoryView.java
 // Presentation only.  No user actions.
@@ -34,9 +35,10 @@ public class ListDirectoryView extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
-	private JButton addButton;
-	private JButton removeButton;
-	private JTextField inputElement;
+	private final JButton addButton;
+	private final JButton removeButton;
+	private final JTextField inputElement;
+	private final JList<String> viewList ;
 	
 	/**
 	 * Create the frame.
@@ -73,21 +75,19 @@ public class ListDirectoryView extends JFrame {
 			}
 		});
 
-		// Buttons management depending of the content of the inputElement text field.
+		// Register a DocumentListener for the inputElement text field.
 		inputElement.getDocument().addDocumentListener(new DocumentListener() {
 			
 			@Override
 			public void removeUpdate(DocumentEvent arg0) {
 				if (inputElement.getText().isEmpty()) {
 					addButton.setEnabled(false);
-					removeButton.setEnabled(false);
 				} 
 			}
 			
 			@Override
 			public void insertUpdate(DocumentEvent arg0) {
 				addButton.setEnabled(true);
-				removeButton.setEnabled(true);
 			}
 			
 			@Override
@@ -96,21 +96,34 @@ public class ListDirectoryView extends JFrame {
 		});
 		
 		// Create list panel:
-		final JList<String> viewList = new JList<String>(dirModel);
+		viewList = new JList<String>(dirModel);
 		viewList.setName("list");
 		getContentPane().add(new JScrollPane(viewList));
 
 		// Select text if row is double-clicked:
 		viewList.addMouseListener(new MouseAdapter() {
-			
+
 			@Override
-		    public void mouseClicked(MouseEvent evt) {
-		        if (evt.getClickCount() == 2 && viewList.getSelectedIndex() != -1) {
-		            	inputElement.setText(viewList.getSelectedValue());
-		        }
-		    }
+			public void mouseClicked(MouseEvent evt) {
+				if (evt.getClickCount() == 2 && viewList.getSelectedIndex() != -1) {
+					inputElement.setText(viewList.getSelectedValue());
+				}
+			}
 		});
 
+		viewList.addListSelectionListener(new ListSelectionListener() {
+						
+			@Override
+			public void valueChanged(ListSelectionEvent arg0) {
+				if (viewList.getSelectedIndices().length == 0 ){
+					removeButton.setEnabled(false);
+				} else {
+					removeButton.setEnabled(true);
+				}
+				
+			}
+		});
+		
 		// Create buttons panel:
 		JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		addButton=new JButton("Add");
@@ -144,24 +157,14 @@ public class ListDirectoryView extends JFrame {
 		});
 	}
 	
+	public int[] getSelectedText() {
+		return viewList.getSelectedIndices();
+	}
+	
 	/**
 	 * @return the inputText
 	 */
 	public String getInputText() {
 		return inputElement.getText();
-	}
-	
-	/**
-	 * Activates the button delete 
-	 */
-	public void enableRemoveButton() {
-		removeButton.setEnabled(true);
-	}
-	
-	/**
-	 * Deactivates the button delete 
-	 */
-	public void disableRemoveButton() {
-		removeButton.setEnabled(false);
 	}
 }
