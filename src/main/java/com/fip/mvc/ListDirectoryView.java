@@ -45,6 +45,9 @@ public class ListDirectoryView extends JFrame {
 	 */
 	public ListDirectoryView(ListDirectoryModel dirModel)  {
 		
+		// Get translation object and set default locale:
+		TextTranslation t = TextTranslation.getInstance();
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JPanel contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -53,14 +56,14 @@ public class ListDirectoryView extends JFrame {
 		setContentPane(contentPane);
 		
 		// Create input field row:
-		JLabel entryLabel = new JLabel("Input text:");
+		JLabel entryLabel = new JLabel(t.get("label.input"));
 		inputElement = new JTextField(40);
 		inputElement.setName("inputText");
 		JPanel inputPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		inputPanel.add(entryLabel);
 		inputPanel.add(inputElement);
 		JPanel inputRowPanel = new JPanel(new BorderLayout());
-		inputRowPanel.setBorder(new TitledBorder("Add a text to the list"));
+		inputRowPanel.setBorder(new TitledBorder(t.get("label.title")));
 		inputRowPanel.add(inputPanel);
 		contentPane.add(inputRowPanel, BorderLayout.NORTH);
 
@@ -111,6 +114,7 @@ public class ListDirectoryView extends JFrame {
 			}
 		});
 
+		// Register a ListSelectionListener for the list panel.
 		viewList.addListSelectionListener(new ListSelectionListener() {
 						
 			@Override
@@ -126,12 +130,12 @@ public class ListDirectoryView extends JFrame {
 		
 		// Create buttons panel:
 		JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		addButton=new JButton("Add");
+		addButton=new JButton(t.get("button.add"));
 		addButton.setEnabled(false);
 		addButton.setName("add");
 		buttonsPanel.add(addButton);
 		
-		removeButton=new JButton("Delete");
+		removeButton=new JButton(t.get("button.remove"));
 		removeButton.setEnabled(false);
 		removeButton.setName("del");
 		buttonsPanel.add(removeButton);
@@ -139,6 +143,7 @@ public class ListDirectoryView extends JFrame {
 	}
 	
 	public void addButtonsListener(final ButtonsListener l) {
+		
 		addButton.addActionListener(new ActionListener() {
 			
 			@Override
@@ -147,6 +152,7 @@ public class ListDirectoryView extends JFrame {
 				
 			}
 		});
+		
 		removeButton.addActionListener(new ActionListener() {
 			
 			@Override
@@ -157,6 +163,9 @@ public class ListDirectoryView extends JFrame {
 		});
 	}
 	
+	/**
+	 * @return the indexes of the selected rows of the list
+	 */
 	public int[] getSelectedText() {
 		return viewList.getSelectedIndices();
 	}

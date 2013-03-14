@@ -15,13 +15,11 @@ public class ListDirectoryMain {
 		
 		ListDirectoryModel      model      = new ListDirectoryModel();
 		ListDirectoryView       view       = new ListDirectoryView(model);
+		@SuppressWarnings("unused")
 		ListDirectoryController controller = new ListDirectoryController(model, view);
-		//... Add listeners to the view.
-		//view.addButtonsListener(controller);
-		
+				
 		view.pack();
 		view.setLocation(200, 200);
 		view.setVisible(true);
 	}
-
 }
