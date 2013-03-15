@@ -1,4 +1,4 @@
-// JFSTextT.java
+// TextTranslation.java
 
 package com.fip.mvc;
 
@@ -15,8 +15,8 @@ public enum TextTranslation {
 	
 	INSTANCE;
 
-	private Locale locale = null;
-	private ResourceBundle bundle = null;
+	private final Locale locale;
+	private final ResourceBundle bundle;
 
 	/**
 	 * Sets some default values for the object.
@@ -43,7 +43,7 @@ public enum TextTranslation {
 	 *            The key.
 	 * @return Translated string.
 	 */
-	public final String get(String key) {
+	public String get(String key) {
 		try {
 			return bundle.getString(key);
 		} catch (MissingResourceException e) {
