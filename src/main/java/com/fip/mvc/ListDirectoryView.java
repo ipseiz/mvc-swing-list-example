@@ -38,7 +38,7 @@ public class ListDirectoryView extends JFrame {
 	private final JButton addButton;
 	private final JButton removeButton;
 	private final JTextField inputElement;
-	private final JList<String> viewList ;
+	private final JList<Object> viewList ;
 	
 	/**
 	 * Create the frame.
@@ -99,8 +99,9 @@ public class ListDirectoryView extends JFrame {
 		});
 		
 		// Create list panel:
-		viewList = new JList<String>(dirModel);
+		viewList = new JList<Object>(dirModel);
 		viewList.setName("list");
+		viewList.setCellRenderer(new ImageListCellRenderer());
 		getContentPane().add(new JScrollPane(viewList));
 
 		// Select text if row is double-clicked:
@@ -109,7 +110,7 @@ public class ListDirectoryView extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent evt) {
 				if (evt.getClickCount() == 2 && viewList.getSelectedIndex() != -1) {
-					inputElement.setText(viewList.getSelectedValue());
+					inputElement.setText(viewList.getSelectedValue().toString());
 				}
 			}
 		});

@@ -1,6 +1,10 @@
 package com.fip.mvc;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Properties;
 
 import javax.swing.AbstractListModel;
 
@@ -14,31 +18,39 @@ import javax.swing.AbstractListModel;
  *
  * @author Fabien Ipseiz
  */
-public class ListDirectoryModel extends AbstractListModel<String> {
+public class ListDirectoryModel extends AbstractListModel<Object> {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private final ArrayList<String> listDirectory = new ArrayList<String>() ;
-
-	public ListDirectoryModel(){
-		listDirectory.clear();
+	private final ArrayList<Object> listDirectory = new ArrayList<Object>() ;
+	private final Properties imageProperties = new Properties();
+		
+	public ListDirectoryModel() {
+		InputStream imageStream = getClass().getResourceAsStream("Images.properties"); 
+		try {
+			imageProperties.load(imageStream);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public ListDirectoryModel(String dir){
-		listDirectory.add(dir);
-	}
-		
-	public String getElementAt(int index) {
+	public Object getElementAt(int index) {
 		return listDirectory.get(index);
 	}
-
+	
 	public int getSize() {
 		return listDirectory.size();
 	}
 	
-	public void addDirectory(String directory) {
+	public void addDirectory(final String directory) {		
 		int index=listDirectory.size();
-		listDirectory.add(directory);
+		String result = imageProperties.getProperty(directory);
+		if(result == null) {
+			listDirectory.add(directory);
+		} else {
+			URL url = getClass().getResource(result);
+			listDirectory.add(url);
+		}		
 		fireIntervalAdded(this, index, index);
 	}
 	

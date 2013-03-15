@@ -25,7 +25,8 @@ public class ListDirectoryModelTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		model = new ListDirectoryModel("one");
+		model = new ListDirectoryModel();
+		model.addDirectory("one");
 	}
 
 	/**
@@ -40,7 +41,7 @@ public class ListDirectoryModelTest {
 	 */
 	@Test
 	public void testGetElementAt() {
-		assertThat(model.getElementAt(0), is(equalTo("one")));
+		assertThat(model.getElementAt(0).toString(), is(equalTo("one")));
 	}
 
 	/**
@@ -59,7 +60,7 @@ public class ListDirectoryModelTest {
 	public void testAddDirectory() {
 		model.addDirectory("two");
 		assertThat(model.getSize(), is(equalTo(2)));
-		assertThat(model.getElementAt(1), is(equalTo("two")));
+		assertThat(model.getElementAt(1).toString(), is(equalTo("two")));
 	}
 
 	/**
